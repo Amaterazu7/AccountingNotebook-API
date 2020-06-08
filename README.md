@@ -1,3 +1,58 @@
+# Accounting Notebook API Considerations
+The application is a backend on Spring-boot API REST in Java8 & Hibernate with a frontend on Angular 8 with Angular Material & Bootstrap template. 
+For this project I used Spring Data JPA OPTIMISTIC locking to manage concurrent access and to ensure that the data has not changed externally within a transaction. Also, 
+I used @Version annotation provided by JPA to enable this locking. 
+
+Please first step, clone or download this project.
+
+### Running the APP 
+* You can run the application installing the dependencies with Maven & NPM, and then launch the app:
+
+`` cd AccountingNotebook-API ``
+
+* then run: 
+
+`` mvn clean package -P prod ``
+
+* After that and Execute the Jar:
+
+`` java -jar target/accountingNotebook-0.0.1-SNAPSHOT.jar ``
+
+* Then you need to run the UI:
+
+`` cd dashboard/ ``
+
+`` npm install ``
+
+`` npm start ``
+
+
+### Running the APP with docker 
+* You can install docker & docker-compose and run this commands in order to create a docker images. So, you can run the application on a docker containers with the docker-compose file:
+
+`` docker-compose up --build ``
+
+* If you don't want to see any log on you terminal you can run this:
+
+`` docker-compose up --build -d ``
+
+
+* when the application is started you can go here to see the documentation:
+      
+        * http://0.0.0.0:8080/swagger-ui.html#/
+
+* here to see the dashboard UI:
+
+        * http://0.0.0.0:4200/#/dashboard
+        
+* and here to see the UI of the H2 database:        
+
+        * http://0.0.0.0:8080/console
+
+  
+` Please, remember that you need to leave the ":8080" & ":4200" ports free to run the application. `  
+
+
 # Accounting Notebook API - Agile Engine Code Challenge:
 We are looking to build a money accounting system. The application should be a web service. It should not do any real “transactional” work, just emulate the financial transactions logic (debit and credit).
 We emulate debit and credit operations for a single user, so we always have just one financial account.
