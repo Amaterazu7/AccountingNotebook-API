@@ -37,6 +37,11 @@ public class AccountingNotebookApplicationTests {
 	@Autowired
 	private AccountRepository accountRepository;
 
+	private static final String TEST_FAIL_TRANSACTION = "Could't create a Debit Transaction. The Balance shouldn't be zero.";
+	private static final String TEST_DEBIT_TRANSACTION = "Debit Transaction created Successfully.";
+	private static final String TEST_CREDIT_TRANSACTION = "Credit Transaction created Successfully.";
+
+
 	Optional<User> user;
 	List<Transaction> transactions;
 	Account account;
@@ -68,7 +73,7 @@ public class AccountingNotebookApplicationTests {
 		List<Transaction> accountTransactions = accountService.getDataByUserId(user.get().getId()).get().getAccountTransactions();
 		assertThat(accountTransactions, hasSize(1));
 
-		BigDecimal balance = new BigDecimal(accountService.getBalanceById(1L).toString());
+		BigDecimal balance = new BigDecimal(accountService.getBalanceById(account.getId()).toString());
 		assertEquals(balance, new BigDecimal("50000.00"));
 	}
 
@@ -78,8 +83,9 @@ public class AccountingNotebookApplicationTests {
 		List<Transaction> accountTransactions = accountService.getDataByUserId(user.get().getId()).get().getAccountTransactions();
 		assertThat(accountTransactions, hasSize(2));
 
-		BigDecimal balance = new BigDecimal(accountService.getBalanceById(1L).toString());
+		BigDecimal balance = new BigDecimal(accountService.getBalanceById(account.getId()).toString());
 		assertEquals(balance, new BigDecimal("40000.00"));
+		assertThat(accountTransactions.get(1).getDescription(), equalTo(TEST_DEBIT_TRANSACTION));
 	}
 
 	@Test
@@ -88,8 +94,9 @@ public class AccountingNotebookApplicationTests {
 		List<Transaction> accountTransactions = accountService.getDataByUserId(user.get().getId()).get().getAccountTransactions();
 		assertThat(accountTransactions, hasSize(2));
 
-		BigDecimal balance = new BigDecimal(accountService.getBalanceById(1L).toString());
+		BigDecimal balance = new BigDecimal(accountService.getBalanceById(account.getId()).toString());
 		assertEquals(balance, new BigDecimal("50000.00"));
+		assertThat(accountTransactions.get(1).getDescription(), equalTo(TEST_FAIL_TRANSACTION));
 	}
 
 	@Test
@@ -98,7 +105,8 @@ public class AccountingNotebookApplicationTests {
 		List<Transaction> accountTransactions = accountService.getDataByUserId(user.get().getId()).get().getAccountTransactions();
 		assertThat(accountTransactions, hasSize(2));
 
-		BigDecimal balance = new BigDecimal(accountService.getBalanceById(1L).toString());
+		BigDecimal balance = new BigDecimal(accountService.getBalanceById(account.getId()).toString());
 		assertEquals(balance, new BigDecimal("75000.00"));
+		assertThat(accountTransactions.get(1).getDescription(), equalTo(TEST_CREDIT_TRANSACTION));
 	}
 }
