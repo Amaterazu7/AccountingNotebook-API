@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Transaction Information</h1>
+<div mat-dialog-content>
+
+    <p>Transaction Id:: #{{data.id}}</p>
+    <p>Amount:: € {{data.amount | currency:'':'':'1.2-2'}}</p>
+    <p>Transaction Creation Date:: {{data.created | date: 'MMM d, y, h:mm:ss a'}}</p>
+    <p>Transaction Status:: {{data.status}}</p>
+    <p>Transaction Type:: {{data.type}}</p>
+    <p>Description:: {{data.description}}</p>
+
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()" cdkFocusInitial class="btn btn-dark">Okay Thanks!</button>
+</div>

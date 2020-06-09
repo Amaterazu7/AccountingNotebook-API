@@ -1,25 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.exercise.accountingNotebook.AccountingNotebookApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 8.056 s <<< FAILURE! - in com.exercise.accountingNotebook.AccountingNotebookApplicationTests
-shouldDebitAndGetNewBalance(com.exercise.accountingNotebook.AccountingNotebookApplicationTests)  Time elapsed: 0.105 s  <<< FAILURE!
-java.lang.AssertionError: 
-
-Expected: a collection with size <3>
-     but: collection size was <1>
-	at com.exercise.accountingNotebook.AccountingNotebookApplicationTests.shouldDebitAndGetNewBalance(AccountingNotebookApplicationTests.java:77)
-
-shouldCreditAndGetNewBalance(com.exercise.accountingNotebook.AccountingNotebookApplicationTests)  Time elapsed: 0.016 s  <<< FAILURE!
-java.lang.AssertionError: 
-
-Expected: a collection with size <4>
-     but: collection size was <1>
-	at com.exercise.accountingNotebook.AccountingNotebookApplicationTests.shouldCreditAndGetNewBalance(AccountingNotebookApplicationTests.java:84)
-
-shouldNotDebit(com.exercise.accountingNotebook.AccountingNotebookApplicationTests)  Time elapsed: 0.013 s  <<< FAILURE!
-java.lang.AssertionError: 
-
-Expected: a collection with size <2>
-     but: collection size was <1>
-	at com.exercise.accountingNotebook.AccountingNotebookApplicationTests.shouldNotDebit(AccountingNotebookApplicationTests.java:70)
-
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.361 s - in com.exercise.accountingNotebook.AccountingNotebookApplicationTests

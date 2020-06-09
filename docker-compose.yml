@@ -1,0 +1,25 @@
+version: '3'
+services:
+  angular-service:
+    image: docker-a8-accountingnotebook
+    container_name: docker-a8-accountingnotebook
+    restart: always
+    build: ./dashboard
+    expose:
+      - 4200
+    ports:
+      - 4200:4200
+  app:
+    image: docker-boot-accountingnotebook
+    container_name: docker-boot-accountingnotebook
+    restart: always
+    build: ./
+    working_dir: /app
+    environment:
+      - "LANG=en_US.UTF-8"
+      - "LANGUAGE=en_US.UTF-8"
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    command: mvn clean spring-boot:run

@@ -1,18 +1,101 @@
 package com.exercise.accountingNotebook;
 
+import com.exercise.accountingNotebook.model.Account;
+import com.exercise.accountingNotebook.model.User;
+import com.exercise.accountingNotebook.model.transaction.Status;
+import com.exercise.accountingNotebook.model.transaction.Transaction;
+import com.exercise.accountingNotebook.model.transaction.Type;
+import com.exercise.accountingNotebook.repository.AccountRepository;
+import com.exercise.accountingNotebook.repository.UserRepository;
+import com.exercise.accountingNotebook.service.AccountTransactionService;
+import com.exercise.accountingNotebook.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import javax.transaction.Transactional;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
-@RunWith(SpringRunner.class)
+@Transactional
+@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class AccountingNotebookApplicationTests {
+	@Autowired
+	private AccountTransactionService accountService;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private AccountRepository accountRepository;
+
+	Optional<User> user;
+	List<Transaction> transactions;
+	Account account;
+	Transaction failTransaction;
+	Transaction goodDebitTransaction;
+	Transaction goodCreditTransaction;
+
+	@Value("${initializer.user.name}")
+	private String name;
+	@Value("${initializer.user.codeId}")
+	private String codeId;
 
 	@Before
-	public void setUp() {  }
+	public void setUp() {
+		user = userService.getUser(1L);
+		transactions = accountService.getAllTransactions(1L);
+		account = accountRepository.findById(1L).get();
+		goodDebitTransaction = new Transaction(
+				new BigDecimal(-10000.00), Type.DEBIT, Status.REGISTERED, "TestGoodDebitTransaction", account
+		);
+		failTransaction = new Transaction(
+				new BigDecimal(-70000.00), Type.DEBIT, Status.FAILED, "TestFailTransaction", account
+		);
+		goodCreditTransaction = new Transaction(
+				new BigDecimal(25000.00), Type.CREDIT, Status.REGISTERED, "TestGoodCreditTransaction", account
+		);
+	}
 
 	@Test
-	public void contextLoads() {  }
+	public void contextLoads() {
+		assertThat(user.get().getName(), equalTo(this.name));
+		assertThat(user.get().getCodeId(), equalTo(this.codeId));
+		assertThat(transactions, hasSize(1));
+
+		List<Transaction> accountTransactions = accountService.getDataByUserId(user.get().getId()).get().getAccountTransactions();
+		assertThat(accountTransactions, hasSize(1));
+
+		BigDecimal balance = new BigDecimal(accountService.getBalanceById(1L).toString());
+		assertEquals(balance, new BigDecimal("50000.00"));
+	}
+
+	@Test
+	public void shouldDebitAndGetNewBalance() {
+		accountService.saveAccountTransaction(goodDebitTransaction);
+		List<Transaction> accountTransactions = accountService.getDataByUserId(user.get().getId()).get().getAccountTransactions();
+		assertThat(accountTransactions, hasSize(2));
+
+	}
+
+	@Test
+	public void shouldNotDebit() {
+		accountService.saveAccountTransaction(failTransaction);
+		List<Transaction> accountTransactions = accountService.getDataByUserId(user.get().getId()).get().getAccountTransactions();
+		assertThat(accountTransactions, hasSize(2));
+	}
+
+	@Test
+	public void shouldCreditAndGetNewBalance() {
+		accountService.saveAccountTransaction(goodCreditTransaction);
+		List<Transaction> accountTransactions = accountService.getDataByUserId(user.get().getId()).get().getAccountTransactions();
+		assertThat(accountTransactions, hasSize(2));
+	}
 }
