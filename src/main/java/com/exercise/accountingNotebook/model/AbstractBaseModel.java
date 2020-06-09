@@ -32,4 +32,5 @@ public abstract class AbstractBaseModel implements Serializable {
     protected void onCreate() {
         created = LocalDateTime.now();
     }
+
 }

@@ -19,7 +19,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 @Service
 public class CreditTransaction implements TransactionTypeService {
     ReadWriteLock rwLock = new ReentrantReadWriteLock();
-    private Lock accountLock = rwLock.writeLock();
+    private final Lock accountLock = rwLock.writeLock();
 
     @Override
     public Transaction handlerTransaction(Request request, Account account) {
@@ -53,9 +53,6 @@ public class CreditTransaction implements TransactionTypeService {
             creditTransaction.setAmount( request.getAmount() );
             creditTransaction.setType( request.getType() );
             creditTransaction.setAccount( account );
-
-        } catch (Exception err) {
-            throw err;
 
         } finally {
             this.accountLock.unlock();

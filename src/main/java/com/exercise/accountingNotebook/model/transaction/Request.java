@@ -14,4 +14,5 @@ import java.math.BigDecimal;
 public class Request {
     private BigDecimal amount;
     private Type type;
+
 }

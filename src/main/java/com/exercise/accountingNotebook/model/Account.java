@@ -34,4 +34,5 @@ public class Account extends AbstractBaseModel {
     private List<Transaction> accountTransactions;
     @Version
     private Integer version;
+
 }
