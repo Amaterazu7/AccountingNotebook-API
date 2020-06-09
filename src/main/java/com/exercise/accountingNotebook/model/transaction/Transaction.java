@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ApiModel(description = "Transaction Class to handle the states of each transactions.")
 public class Transaction extends AbstractBaseModel {
@@ -33,11 +34,4 @@ public class Transaction extends AbstractBaseModel {
     @ManyToOne
     private Account account;
 
-    public Transaction(BigDecimal amount, Type type, Status status,  String description, Account account) {
-        this.amount = amount;
-        this.type = type;
-        this.status = status;
-        this.description = description;
-        this.account = account;
-    }
 }

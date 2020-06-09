@@ -83,6 +83,8 @@ public class AccountingNotebookApplicationTests {
 		List<Transaction> accountTransactions = accountService.getDataByUserId(user.get().getId()).get().getAccountTransactions();
 		assertThat(accountTransactions, hasSize(2));
 
+		BigDecimal balance = new BigDecimal(accountService.getBalanceById(1L).toString());
+		assertEquals(balance, new BigDecimal("40000.00"));
 	}
 
 	@Test
@@ -90,6 +92,9 @@ public class AccountingNotebookApplicationTests {
 		accountService.saveAccountTransaction(failTransaction);
 		List<Transaction> accountTransactions = accountService.getDataByUserId(user.get().getId()).get().getAccountTransactions();
 		assertThat(accountTransactions, hasSize(2));
+
+		BigDecimal balance = new BigDecimal(accountService.getBalanceById(1L).toString());
+		assertEquals(balance, new BigDecimal("50000.00"));
 	}
 
 	@Test
@@ -97,5 +102,8 @@ public class AccountingNotebookApplicationTests {
 		accountService.saveAccountTransaction(goodCreditTransaction);
 		List<Transaction> accountTransactions = accountService.getDataByUserId(user.get().getId()).get().getAccountTransactions();
 		assertThat(accountTransactions, hasSize(2));
+
+		BigDecimal balance = new BigDecimal(accountService.getBalanceById(1L).toString());
+		assertEquals(balance, new BigDecimal("75000.00"));
 	}
 }

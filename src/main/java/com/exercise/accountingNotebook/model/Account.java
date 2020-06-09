@@ -19,6 +19,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ApiModel(description = "Account Class to handle it's states.")
 public class Account extends AbstractBaseModel {
@@ -33,11 +34,4 @@ public class Account extends AbstractBaseModel {
     private List<Transaction> accountTransactions;
     @Version
     private Integer version;
-
-    public Account(BigDecimal totalAmount, User user, List<Transaction> accountTransactions, Integer version) {
-        this.totalAmount = totalAmount;
-        this.user = user;
-        this.accountTransactions = accountTransactions;
-        this.version = version;
-    }
 }

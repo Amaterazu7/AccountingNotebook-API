@@ -1,10 +1,7 @@
 package com.exercise.accountingNotebook.model.transaction;
 
 import io.swagger.annotations.ApiModel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -12,6 +9,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @ApiModel(description = "TransactionRequest Class to handle the request for each transaction.")
 public class Request {
     private BigDecimal amount;

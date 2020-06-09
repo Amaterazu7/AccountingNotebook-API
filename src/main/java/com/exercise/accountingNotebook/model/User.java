@@ -2,6 +2,7 @@ package com.exercise.accountingNotebook.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import javax.persistence.Entity;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ApiModel(description = "User Class to handle the user data.")
 public class User extends AbstractBaseModel {
@@ -27,10 +29,4 @@ public class User extends AbstractBaseModel {
     @Column
     private String email;
 
-    public User(String name, String surname, String codeId, String email) {
-        this.name = name;
-        this.surname = surname;
-        this.codeId = codeId;
-        this.email = email;
-    }
 }
