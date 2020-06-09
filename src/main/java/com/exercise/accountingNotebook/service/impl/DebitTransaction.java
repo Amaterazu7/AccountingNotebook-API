@@ -44,7 +44,7 @@ public class DebitTransaction implements TransactionTypeService {
         int resAmount = request.getAmount().compareTo(zero);
         int restBalance = ( accountBalance.add(request.getAmount()) ).compareTo(zero);
 
-        return ( resAmount == -1 && restBalance == 1 );
+        return ( resAmount < 0 && restBalance > 0 );
     }
 
 

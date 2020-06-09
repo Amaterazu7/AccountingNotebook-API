@@ -42,7 +42,7 @@ public class CreditTransaction implements TransactionTypeService {
     @Override
     public boolean checkBalance(Request request, BigDecimal accountBalance) {
         int res = request.getAmount().compareTo(new BigDecimal("0"));
-        return ( res == 1 );
+        return ( res > 0 );
     }
 
     @Transactional
