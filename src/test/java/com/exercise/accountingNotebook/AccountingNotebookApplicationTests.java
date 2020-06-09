@@ -2,6 +2,7 @@ package com.exercise.accountingNotebook;
 
 import com.exercise.accountingNotebook.model.Account;
 import com.exercise.accountingNotebook.model.User;
+import com.exercise.accountingNotebook.model.transaction.Request;
 import com.exercise.accountingNotebook.model.transaction.Status;
 import com.exercise.accountingNotebook.model.transaction.Transaction;
 import com.exercise.accountingNotebook.model.transaction.Type;
@@ -39,9 +40,9 @@ public class AccountingNotebookApplicationTests {
 	Optional<User> user;
 	List<Transaction> transactions;
 	Account account;
-	Transaction failTransaction;
-	Transaction goodDebitTransaction;
-	Transaction goodCreditTransaction;
+	Request failTransaction;
+	Request goodDebitTransaction;
+	Request goodCreditTransaction;
 
 	@Value("${initializer.user.name}")
 	private String name;
@@ -53,15 +54,9 @@ public class AccountingNotebookApplicationTests {
 		user = userService.getUser(1L);
 		transactions = accountService.getAllTransactions(1L);
 		account = accountRepository.findById(1L).get();
-		goodDebitTransaction = new Transaction(
-				new BigDecimal(-10000.00), Type.DEBIT, Status.REGISTERED, "TestGoodDebitTransaction", account
-		);
-		failTransaction = new Transaction(
-				new BigDecimal(-70000.00), Type.DEBIT, Status.FAILED, "TestFailTransaction", account
-		);
-		goodCreditTransaction = new Transaction(
-				new BigDecimal(25000.00), Type.CREDIT, Status.REGISTERED, "TestGoodCreditTransaction", account
-		);
+		goodDebitTransaction = new Request(new BigDecimal(-10000.00), Type.DEBIT);
+		failTransaction = new Request(new BigDecimal(-70000.00), Type.DEBIT);
+		goodCreditTransaction = new Request(new BigDecimal(25000.00), Type.CREDIT);
 	}
 
 	@Test
@@ -79,7 +74,7 @@ public class AccountingNotebookApplicationTests {
 
 	@Test
 	public void shouldDebitAndGetNewBalance() {
-		accountService.saveAccountTransaction(goodDebitTransaction);
+		accountService.createAccountTransaction(goodDebitTransaction, account.getId());
 		List<Transaction> accountTransactions = accountService.getDataByUserId(user.get().getId()).get().getAccountTransactions();
 		assertThat(accountTransactions, hasSize(2));
 
@@ -89,7 +84,7 @@ public class AccountingNotebookApplicationTests {
 
 	@Test
 	public void shouldNotDebit() {
-		accountService.saveAccountTransaction(failTransaction);
+		accountService.createAccountTransaction(failTransaction, account.getId());
 		List<Transaction> accountTransactions = accountService.getDataByUserId(user.get().getId()).get().getAccountTransactions();
 		assertThat(accountTransactions, hasSize(2));
 
@@ -99,7 +94,7 @@ public class AccountingNotebookApplicationTests {
 
 	@Test
 	public void shouldCreditAndGetNewBalance() {
-		accountService.saveAccountTransaction(goodCreditTransaction);
+		accountService.createAccountTransaction(goodCreditTransaction, account.getId());
 		List<Transaction> accountTransactions = accountService.getDataByUserId(user.get().getId()).get().getAccountTransactions();
 		assertThat(accountTransactions, hasSize(2));
 
