@@ -28,7 +28,7 @@ Please first step, clone or download this project.
 
 
 ### Running the APP with docker 
-* You can install docker & docker-compose and run this commands in order to create a docker images. So, you can run the application on a docker containers with the docker-compose file:
+* You can install the latest docker & docker-compose version and run this commands in order to create a docker images. So, you can run the application on a docker containers with the docker-compose file:
 
 `` docker-compose up --build ``
 
@@ -37,7 +37,7 @@ Please first step, clone or download this project.
 `` docker-compose up --build -d ``
 
 
-* when the application is started you can go here to see the documentation:
+* when the application started you can go here to see the documentation:
       
         * http://0.0.0.0:8080/swagger-ui.html#/
 
